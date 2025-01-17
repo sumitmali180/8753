@@ -3,14 +3,18 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import TaskLog from './components/Tasklog'
+import Navbar from './components/Navbar'
+import { Routes, Route } from 'react-router-dom'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Employee Productivity Tracker</h1>
-      <TaskLog/>
+      <Navbar/>
+      <Routes>
+        <Route path="/task-log" element={<TaskLog />} />
+      </Routes>
     </>
   )
 }
