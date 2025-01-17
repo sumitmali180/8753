@@ -14,9 +14,16 @@ function Navbar() {
     <nav className="bg-white shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <img src="https://i.ibb.co/QdPqJWd/download-1.png" alt="Logo" className="h-12 w-auto" />
-          </Link>
+          {/* Logo Image */}
+      <Link to="/" className="flex items-center space-x-2">
+        <img src="https://i.ibb.co/QdPqJWd/download-1.png" alt="Logo" className="h-12 w-auto" />
+        <Link to="/" className="flex items-center space-x-2">
+        <img src="https://i.ibb.co/qmB3pQB/download-2-2.png" alt="Logoname" className="h-8 w-auto" />
+      </Link>
+      </Link>
+
+      {/* Logo Name */}
+      
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex space-x-4">
@@ -24,6 +31,7 @@ function Navbar() {
             <NavLink icon={<ClipboardDocumentListIcon className="h-5 w-5" />} text="Task Log" to="/task-log" />
             <NavLink icon={<ChartBarIcon className="h-5 w-5" />} text="Analytics" to="/analytics" />
             <NavLink icon={<UserCircleIcon className="h-5 w-5" />} text="Profile" to="/profile" />
+            <NavLink icon={<UserCircleIcon className="h-5 w-5" />} text="Register" to="/register" />
           </div>
 
           {/* Mobile Menu Button */}
@@ -47,6 +55,7 @@ function Navbar() {
           <NavLink icon={<ClipboardDocumentListIcon className="h-5 w-5" />} text="Task Log" to="/task-log" />
           <NavLink icon={<ChartBarIcon className="h-5 w-5" />} text="Analytics" to="/analytics" />
           <NavLink icon={<UserCircleIcon className="h-5 w-5" />} text="Profile" to="/profile" />
+          <NavLink icon={<UserCircleIcon className="h-5 w-5" />} text="Register" to="/register" />
         </div>
       </div>
     </nav>
