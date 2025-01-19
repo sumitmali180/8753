@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import classNames from 'classnames'; // For conditional styling (optional, install with npm/yarn)
+import classNames from 'classnames'; 
 
 const TaskForm = () => {
   const [taskName, setTaskName] = useState('');
@@ -9,12 +9,11 @@ const TaskForm = () => {
   const [status, setStatus] = useState('Pending');
   const [timeSpent, setTimeSpent] = useState('');
   const [tasks, setTasks] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false); // To manage the submission state
-  const [focusedField, setFocusedField] = useState(null); // Track focus state for dynamic styles
-
+  const [isSubmitting, setIsSubmitting] = useState(false); 
+  const [focusedField, setFocusedField] = useState(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Set the submitting state
+    setIsSubmitting(true); 
 
     const newTask = {
       name: taskName,
@@ -25,37 +24,34 @@ const TaskForm = () => {
     };
 
     try {
-      // Post the new task to Firebase
+      
       const response = await axios.post('https://userauth-4478f-default-rtdb.firebaseio.com/tasks.json', newTask);
 
-      // Update the task list with the new task and its ID
       setTasks((prevTasks) => [
         ...prevTasks,
         { id: response.data.name, ...newTask },
       ]);
 
-      // Clear the form fields
       setTaskName('');
       setAssignee('');
       setPriority('Medium');
       setStatus('Pending');
       setTimeSpent('');
 
-      // Show success alert
       alert('Task created successfully!');
     } catch (error) {
       console.error('Error creating task:', error);
     } finally {
-      setIsSubmitting(false); // Reset the submitting state
+      setIsSubmitting(false); 
     }
   };
 
   const handleFocus = (field) => {
-    setFocusedField(field); // Set the currently focused field
+    setFocusedField(field); 
   };
 
   const handleBlur = () => {
-    setFocusedField(null); // Reset focus when input loses focus
+    setFocusedField(null); 
   };
 
   return (
@@ -75,9 +71,9 @@ const TaskForm = () => {
             className={classNames(
               "mt-2 w-full px-4 py-2 border rounded-md",
               {
-                "border-blue-500": focusedField === 'taskName', // Highlight on focus
-                "border-red-500": isSubmitting && !taskName, // Highlight on submit if empty
-                "border-gray-300": !focusedField && !isSubmitting, // Default border
+                "border-blue-500": focusedField === 'taskName', 
+                "border-red-500": isSubmitting && !taskName, 
+                "border-gray-300": !focusedField && !isSubmitting, 
               }
             )}
           />
@@ -141,12 +137,12 @@ const TaskForm = () => {
 
         <button
           type="submit"
-          disabled={isSubmitting} // Disable the button while submitting
+          disabled={isSubmitting} 
           className={classNames(
             "w-full px-4 py-2 rounded-md text-white",
             {
-              "bg-blue-500": !isSubmitting, // Default button style
-              "bg-gray-400": isSubmitting, // Disabled button style
+              "bg-blue-500": !isSubmitting, 
+              "bg-gray-400": isSubmitting, 
               "cursor-not-allowed": isSubmitting,
             }
           )}
