@@ -11,6 +11,9 @@ const Sidebar = () => {
           <Link to="/dashboard" className="block">Dashboard</Link>
         </li>
         <li className="p-4 text-sm hover:bg-gray-700 transition-colors cursor-pointer">
+          <Link to="/taskform" className="block">Add Task</Link>
+        </li>
+        <li className="p-4 text-sm hover:bg-gray-700 transition-colors cursor-pointer">
           <Link to="/TeamMembersDashboard" className="block">Team Members</Link>
         </li>
         <li className="p-4 text-sm hover:bg-gray-700 transition-colors cursor-pointer">
@@ -29,3 +32,7 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
+
+
+

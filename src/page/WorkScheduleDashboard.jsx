@@ -17,19 +17,67 @@ const WorkScheduleDashboard = () => {
     taskName: '',
   });
 
+  // Dummy data to replace API calls
+  const dummyTeamMembers = [
+    { id: '1', name: 'Andy Bernard' },
+    { id: '2', name: 'Charles Malkins' },
+    { id: '3', name: 'Creed Bratton' },
+    { id: '4', name: 'Darryl Philbin' },
+    { id: '5', name: 'Dwight Schrute' },
+  ];
+
+  const dummySchedules = {
+    '1': {
+      startTime: '09:00',
+      endTime: '17:00',
+      breaks: [
+        { breakStart: '12:00', breakEnd: '12:30' }
+      ],
+      tasks: [
+        { task: 'Meeting with HR', startTime: '09:00', endTime: '11:00' },
+        { task: 'Email follow-ups', startTime: '11:00', endTime: '12:00' },
+      ],
+    },
+    '2': {
+      startTime: '08:30',
+      endTime: '16:30',
+      breaks: [
+        { breakStart: '12:15', breakEnd: '12:45' }
+      ],
+      tasks: [
+        { task: 'Financial report', startTime: '08:30', endTime: '11:30' },
+        { task: 'Team call', startTime: '11:30', endTime: '12:30' },
+      ],
+    },
+    '3': null, // No schedule for Creed
+    '4': {
+      startTime: '10:00',
+      endTime: '18:00',
+      breaks: [
+        { breakStart: '13:00', breakEnd: '13:30' }
+      ],
+      tasks: [
+        { task: 'Product launch meeting', startTime: '10:00', endTime: '12:00' },
+        { task: 'Task delegation', startTime: '12:30', endTime: '14:00' },
+      ],
+    },
+    '5': {
+      startTime: '07:30',
+      endTime: '15:30',
+      breaks: [
+        { breakStart: '11:30', breakEnd: '12:00' }
+      ],
+      tasks: [
+        { task: 'Client meeting', startTime: '07:30', endTime: '09:30' },
+        { task: 'Inventory check', startTime: '09:30', endTime: '11:00' },
+      ],
+    },
+  };
+
+  // Mimic API call to fetch team members and their schedules
   useEffect(() => {
-    const fetchTeamMembers = async () => {
-      const snapshot = await axios.get('https://userauth-4478f-default-rtdb.firebaseio.com/teamMembers.json');
-      const data = snapshot.data;
-      if (data) {
-        const membersArray = Object.keys(data).map((key) => ({
-          ...data[key],
-          id: key,
-        }));
-        setTeamMembers(membersArray);
-      }
-    };
-    fetchTeamMembers();
+    setTeamMembers(dummyTeamMembers);
+    setSchedules(dummySchedules);
   }, []);
 
   const handleDateChange = (date) => {
@@ -38,33 +86,13 @@ const WorkScheduleDashboard = () => {
 
   const formattedDate = selectedDate.toISOString().split('T')[0]; 
 
-  useEffect(() => {
-  
-    if (teamMembers.length > 0) {
-      teamMembers.forEach(async (member) => {
-        const scheduleSnapshot = await axios.get(`https://userauth-4478f-default-rtdb.firebaseio.com/teamMembers/${member.id}/workSchedule/${formattedDate}.json`);
-        const schedule = scheduleSnapshot.data;
-        setSchedules((prevSchedules) => ({
-          ...prevSchedules,
-          [member.id]: schedule || null, 
-        }));
-      });
-    }
-  }, [selectedDate, teamMembers]);
-
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setScheduleForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-
+  // Open the modal to add/edit a schedule
   const openModal = (memberId) => {
     setIsModalOpen(true);
-    setScheduleForm({ ...scheduleForm, memberId }); 
+    setScheduleForm({ ...scheduleForm, memberId });
   };
 
- 
+  // Close the modal
   const closeModal = () => {
     setIsModalOpen(false);
     setScheduleForm({
@@ -77,6 +105,13 @@ const WorkScheduleDashboard = () => {
     });
   };
 
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setScheduleForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { memberId, startTime, endTime, breakStart, breakEnd, taskName } = scheduleForm;
@@ -88,24 +123,20 @@ const WorkScheduleDashboard = () => {
       tasks: [{ task: taskName, startTime, endTime }],
     };
 
-    try {
-      await axios.put(
-        `https://userauth-4478f-default-rtdb.firebaseio.com/teamMembers/${memberId}/workSchedule/${formattedDate}.json`,
-        scheduleData
-      );
-      closeModal();
-      alert('Schedule added/updated successfully!');
-    } catch (error) {
-      console.error('Error saving schedule:', error);
-      alert('Failed to save schedule. Please try again.');
-    }
+    // Update the schedule for the team member
+    setSchedules((prevSchedules) => ({
+      ...prevSchedules,
+      [memberId]: scheduleData,
+    }));
+
+    closeModal();
+    alert('Schedule added/updated successfully!');
   };
 
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-2xl font-semibold mb-4">Work Schedule for {formattedDate}</h1>
 
-    
       <div className="mb-6">
         <Calendar
           onChange={handleDateChange}
@@ -113,7 +144,6 @@ const WorkScheduleDashboard = () => {
         />
       </div>
 
-     
       <div className="mb-6">
         <button
           onClick={() => openModal('')} 
@@ -123,7 +153,6 @@ const WorkScheduleDashboard = () => {
         </button>
       </div>
 
-     
       <div className="overflow-x-auto">
         <table className="table-auto w-full">
           <thead>
@@ -140,7 +169,6 @@ const WorkScheduleDashboard = () => {
             {teamMembers.map((member) => (
               <tr key={member.id} className="border-b">
                 <td className="px-4 py-2">{member.name}</td>
-               
                 {schedules[member.id] ? (
                   <>
                     <td className="px-4 py-2">{schedules[member.id].startTime}</td>
@@ -177,7 +205,6 @@ const WorkScheduleDashboard = () => {
         </table>
       </div>
 
-     
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
           <div className="bg-white p-6 rounded-md w-96">

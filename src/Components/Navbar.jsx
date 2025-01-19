@@ -16,7 +16,7 @@ function Navbar() {
           </Link>
 
           <div className="hidden md:flex space-x-8">
-            <Link to="/" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
+            <Link to="/dashboard" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
               <Home size={20} />
               <span>Home</span>
             </Link>
@@ -24,10 +24,14 @@ function Navbar() {
               <UserCircle size={20} />
               <span>Profile</span>
             </Link>
-            <Link to="/login" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
+            <Link to="/register" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600">
               <UserCircle size={20} />
               <span>Login</span>
             </Link>
+           
+          </div>
+          <div>
+            
           </div>
 
           <div className="md:hidden flex items-center" onClick={toggleMenu}>

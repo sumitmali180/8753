@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import classNames from 'classnames'; // For conditional styling (optional, install with npm/yarn)
 
 const TaskForm = () => {
   const [taskName, setTaskName] = useState('');
@@ -7,10 +8,13 @@ const TaskForm = () => {
   const [priority, setPriority] = useState('Medium');
   const [status, setStatus] = useState('Pending');
   const [timeSpent, setTimeSpent] = useState('');
-  const [tasks, setTasks] = useState([]); 
+  const [tasks, setTasks] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false); // To manage the submission state
+  const [focusedField, setFocusedField] = useState(null); // Track focus state for dynamic styles
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // Set the submitting state
 
     const newTask = {
       name: taskName,
@@ -21,24 +25,37 @@ const TaskForm = () => {
     };
 
     try {
-      
+      // Post the new task to Firebase
       const response = await axios.post('https://userauth-4478f-default-rtdb.firebaseio.com/tasks.json', newTask);
 
-      
+      // Update the task list with the new task and its ID
       setTasks((prevTasks) => [
         ...prevTasks,
-        { id: response.data.name, ...newTask }, 
+        { id: response.data.name, ...newTask },
       ]);
 
-      
+      // Clear the form fields
       setTaskName('');
       setAssignee('');
       setPriority('Medium');
       setStatus('Pending');
       setTimeSpent('');
+
+      // Show success alert
+      alert('Task created successfully!');
     } catch (error) {
       console.error('Error creating task:', error);
+    } finally {
+      setIsSubmitting(false); // Reset the submitting state
     }
+  };
+
+  const handleFocus = (field) => {
+    setFocusedField(field); // Set the currently focused field
+  };
+
+  const handleBlur = () => {
+    setFocusedField(null); // Reset focus when input loses focus
   };
 
   return (
@@ -53,7 +70,16 @@ const TaskForm = () => {
             value={taskName}
             onChange={(e) => setTaskName(e.target.value)}
             required
-            className="mt-2 w-full px-4 py-2 border rounded-md"
+            onFocus={() => handleFocus('taskName')}
+            onBlur={handleBlur}
+            className={classNames(
+              "mt-2 w-full px-4 py-2 border rounded-md",
+              {
+                "border-blue-500": focusedField === 'taskName', // Highlight on focus
+                "border-red-500": isSubmitting && !taskName, // Highlight on submit if empty
+                "border-gray-300": !focusedField && !isSubmitting, // Default border
+              }
+            )}
           />
         </div>
 
@@ -64,7 +90,16 @@ const TaskForm = () => {
             value={assignee}
             onChange={(e) => setAssignee(e.target.value)}
             required
-            className="mt-2 w-full px-4 py-2 border rounded-md"
+            onFocus={() => handleFocus('assignee')}
+            onBlur={handleBlur}
+            className={classNames(
+              "mt-2 w-full px-4 py-2 border rounded-md",
+              {
+                "border-blue-500": focusedField === 'assignee',
+                "border-red-500": isSubmitting && !assignee,
+                "border-gray-300": !focusedField && !isSubmitting,
+              }
+            )}
           />
         </div>
 
@@ -104,25 +139,21 @@ const TaskForm = () => {
           />
         </div>
 
-        <button type="submit" className="w-full px-4 py-2 bg-blue-500 text-white rounded-md">
-          Create Task
+        <button
+          type="submit"
+          disabled={isSubmitting} // Disable the button while submitting
+          className={classNames(
+            "w-full px-4 py-2 rounded-md text-white",
+            {
+              "bg-blue-500": !isSubmitting, // Default button style
+              "bg-gray-400": isSubmitting, // Disabled button style
+              "cursor-not-allowed": isSubmitting,
+            }
+          )}
+        >
+          {isSubmitting ? 'Creating Task...' : 'Create Task'}
         </button>
       </form>
-
-      <div className="mt-8">
-        <h3 className="text-lg font-semibold text-gray-800">Task List</h3>
-        <ul>
-          {tasks.map((task) => (
-            <li key={task.id} className="mt-2 p-4 bg-gray-100 rounded-md">
-              <h4 className="font-medium">{task.name}</h4>
-              <p><strong>Assignee:</strong> {task.assignee}</p>
-              <p><strong>Priority:</strong> {task.priority}</p>
-              <p><strong>Status:</strong> {task.status}</p>
-              <p><strong>Time Spent:</strong> {task.timeSpent}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 };

@@ -12,6 +12,7 @@ import AddWorkSchedule from './page/AddWorkSchedule';
 import WorkScheduleDashboard from './page/WorkScheduleDashboard';
 import Register from './Components/Register';
 
+
 function App() {
   return (
     <div className="flex flex-col h-screen">
@@ -33,6 +34,7 @@ function App() {
             <Route path="/task" element={<Task />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/taskform" element={<TaskForm />} />
+            
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />

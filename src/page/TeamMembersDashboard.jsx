@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { Search, Filter, ChevronLeft, ChevronRight, Calendar, HelpCircle, Plus } from 'lucide-react';
 
-// Sample team data
+// Sample team data (with more diverse dummy data)
 const initialTeamData = [
-  { id: 1, name: 'Andy Bernard', department: 'Management', avatar: 'A', status: 'Working', productiveTime: '-', offlineTime: '-', deskTime: '-', arrivedAt: '-', leftAt: '-', atWork: '-', activeApp: '-', activeProject: '-' },
-  { id: 2, name: 'Charles Malkins', department: 'Accounting', avatar: 'C', status: 'Absent', productiveTime: '-', offlineTime: '-', deskTime: '-', arrivedAt: '-', leftAt: '-', atWork: '-', activeApp: '-', activeProject: '-' },
-  { id: 3, name: 'Creed Bratton', department: 'Accounting', avatar: 'C', status: 'Slacking', productiveTime: '-', offlineTime: '-', deskTime: '-', arrivedAt: '-', leftAt: '-', atWork: '-', activeApp: '-', activeProject: '-' },
-  { id: 4, name: 'Darryl Philbin', department: 'Management', avatar: 'D', status: 'Working', productiveTime: '-', offlineTime: '-', deskTime: '-', arrivedAt: '-', leftAt: '-', atWork: '-', activeApp: '-', activeProject: '-' },
-  { id: 5, name: 'Deleted User (227564)', department: 'Product Oversight', avatar: 'D', status: 'Absent', productiveTime: '-', offlineTime: '-', deskTime: '-', arrivedAt: '-', leftAt: '-', atWork: '-', activeApp: '-', activeProject: '-' },
-  { id: 6, name: 'Dwight Schrute', department: 'Management', avatar: 'D', status: 'Working', productiveTime: '-', offlineTime: '-', deskTime: '-', arrivedAt: '-', leftAt: '-', atWork: '-', activeApp: '-', activeProject: '-' },
-  { id: 7, name: 'Gabe Lewis', department: 'Management', avatar: 'G', status: 'Slacking', productiveTime: '-', offlineTime: '-', deskTime: '-', arrivedAt: '-', leftAt: '-', atWork: '-', activeApp: '-', activeProject: '-' },
-  { id: 8, name: 'Horatio James', department: 'Accounting', avatar: 'H', status: 'Absent', productiveTime: '-', offlineTime: '-', deskTime: '-', arrivedAt: '-', leftAt: '-', atWork: '-', activeApp: '-', activeProject: '-' },
-  { id: 9, name: 'Jo Bennett', department: 'Product Oversight', avatar: 'J', status: 'Working', productiveTime: '-', offlineTime: '-', deskTime: '-', arrivedAt: '-', leftAt: '-', atWork: '-', activeApp: '-', activeProject: '-' },
-  { id: 10, name: 'Kelly Erin Hannon', department: 'Management', avatar: 'K', status: 'Working', productiveTime: '-', offlineTime: '-', deskTime: '-', arrivedAt: '-', leftAt: '-', atWork: '-', activeApp: '-', activeProject: '-' },
+  { id: 1, name: 'Sandeep', department: 'Management', avatar: 'A', status: 'Working', productiveTime: '2h 30m', offlineTime: '0h 30m', deskTime: '3h', arrivedAt: '9:00 AM', leftAt: '6:00 PM', atWork: 'Yes', activeApp: 'Slack', activeProject: 'Project A' },
+  { id: 2, name: 'Charles Malkins', department: 'Accounting', avatar: 'C', status: 'Absent', productiveTime: '-', offlineTime: '-', deskTime: '-', arrivedAt: '-', leftAt: '-', atWork: 'No', activeApp: '-', activeProject: '-' },
+  { id: 3, name: 'Creed Bratton', department: 'Accounting', avatar: 'C', status: 'Slacking', productiveTime: '1h 15m', offlineTime: '1h 45m', deskTime: '2h', arrivedAt: '10:30 AM', leftAt: '4:00 PM', atWork: 'Yes', activeApp: 'YouTube', activeProject: 'Personal Tasks' },
+  { id: 4, name: 'Darryl Philbin', department: 'Management', avatar: 'D', status: 'Working', productiveTime: '3h', offlineTime: '0h', deskTime: '4h', arrivedAt: '8:30 AM', leftAt: '5:30 PM', atWork: 'Yes', activeApp: 'Trello', activeProject: 'Project B' },
+  { id: 5, name: 'Deleted User (227564)', department: 'Product Oversight', avatar: 'D', status: 'Absent', productiveTime: '-', offlineTime: '-', deskTime: '-', arrivedAt: '-', leftAt: '-', atWork: 'No', activeApp: '-', activeProject: '-' },
+  { id: 6, name: 'Dwight Schrute', department: 'Management', avatar: 'D', status: 'Working', productiveTime: '5h', offlineTime: '0h', deskTime: '5h', arrivedAt: '9:00 AM', leftAt: '5:00 PM', atWork: 'Yes', activeApp: 'Outlook', activeProject: 'Sales Plan' },
+  { id: 7, name: 'Gabe Lewis', department: 'Management', avatar: 'G', status: 'Slacking', productiveTime: '1h', offlineTime: '2h', deskTime: '3h', arrivedAt: '9:30 AM', leftAt: '4:30 PM', atWork: 'Yes', activeApp: 'Facebook', activeProject: 'Marketing' },
+  { id: 8, name: 'Horatio James', department: 'Accounting', avatar: 'H', status: 'Absent', productiveTime: '-', offlineTime: '-', deskTime: '-', arrivedAt: '-', leftAt: '-', atWork: 'No', activeApp: '-', activeProject: '-' },
+  { id: 9, name: 'Jo Bennett', department: 'Product Oversight', avatar: 'J', status: 'Working', productiveTime: '4h 45m', offlineTime: '0h 15m', deskTime: '5h', arrivedAt: '8:00 AM', leftAt: '4:45 PM', atWork: 'Yes', activeApp: 'Slack', activeProject: 'Product Launch' },
+  { id: 10, name: 'Kelly Erin Hannon', department: 'Management', avatar: 'K', status: 'Working', productiveTime: '3h 30m', offlineTime: '0h 30m', deskTime: '4h', arrivedAt: '9:15 AM', leftAt: '6:00 PM', atWork: 'Yes', activeApp: 'Zoom', activeProject: 'Client Meeting' },
 ];
 
 const Avatar = ({ letter, className = "" }) => (
