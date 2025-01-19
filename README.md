@@ -48,5 +48,5 @@ The Employee Productivity Tracker is a web application that helps employees log 
 Access the live project here: [Deployed Link](https://worksphere-8753.netlify.app/)
 
 ## Group Presentation Video
-Watch the presentation video showcasing the features and functionality of the project: [Presentation Video](https://youtube.com/)
+Watch the presentation video showcasing the features and functionality of the project: [Presentation Video](https://youtu.be/Yplv88Zq4M8)
 
