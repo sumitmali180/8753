@@ -6,7 +6,7 @@ import Task from './page/Task';
 import Navbar from './Components/Navbar';
 import Profile from './Components/Profile';
 import Login from './Components/Login';
-import Sidebar from './Components/sidebar';
+import Sidebar from './Components/Sidebar';
 import TeamMembersDashboard from './page/TeamMembersDashboard';
 import AddWorkSchedule from './page/AddWorkSchedule';
 import WorkScheduleDashboard from './page/WorkScheduleDashboard';
